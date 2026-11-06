@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CareNest AI — design system layer
+   Tokens live in tailwind.config.js; this file holds the small
+   number of primitives that cannot be expressed as utilities.
+   ============================================================ */
+
+@layer base {
+  :root {
+    --cn-ink: #122c45;
+    --cn-teal: #1b7a78;
+    --cn-canvas: #f6f4ef;
+    --cn-rule: #e1ddd4;
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'tnum';
+  }
+
+  /* Numeric alignment everywhere it matters (times, doses, percentages). */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1, h2, h3 {
+    @apply text-balance;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--cn-teal);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgba(27, 122, 120, 0.16);
+    color: var(--cn-ink);
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cfd6dd; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #a9b4bf; }
+}
+
+@layer components {
+  /* ---- Editorial page header (every module uses PageHeader.tsx) ---- */
+  .cn-eyebrow {
+    @apply text-eyebrow font-semibold uppercase text-ink-mute;
+  }
+
+  .cn-title {
+    @apply font-display text-hero font-medium text-ink;
+  }
+
+  .cn-lede {
+    @apply text-body text-ink-soft max-w-prose;
+  }
+
+  /* ---- Surfaces: one restrained card treatment ---- */
+  .cn-panel {
+    @apply rounded-panel border border-line bg-paper-cool shadow-panel;
+  }
+
+  .cn-panel-flush {
+    @apply rounded-panel border border-line bg-paper-cool overflow-hidden;
+  }
+
+  /* Hairline rule used to separate editorial sections instead of nested cards */
+  .cn-rule {
+    @apply border-t border-line;
+  }
+
+  /* ---- Controls ---- */
+  .cn-field-label {
+    @apply block text-micro font-semibold text-ink-soft mb-1.5;
+  }
+
+  .cn-input {
+    @apply w-full rounded-control border border-line bg-white px-3.5 py-2.5 text-body text-ink placeholder:text-ink-faint transition-colors;
+  }
+
+  .cn-input:focus {
+    @apply border-teal outline-none ring-2 ring-teal/20;
+  }
+
+  .cn-select {
+    @apply cn-input appearance-none bg-no-repeat pr-9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364798D' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.7rem center;
+    background-size: 0.9rem;
+  }
+
+  /* ---- Segmented control (tabs, text size, language) ---- */
+  .cn-segment {
+    @apply inline-flex items-center gap-1 rounded-control border border-line bg-paper-sunken p-1;
+  }
+
+  .cn-segment-item {
+    @apply rounded-[9px] px-3.5 py-1.5 text-micro font-semibold text-ink-mute transition-colors hover:text-ink;
+  }
+
+  .cn-segment-item[aria-selected='true'],
+  .cn-segment-item[data-active='true'] {
+    @apply bg-white text-ink shadow-panel;
+  }
+
+  /* ---- Status dot + label, the single status language of the product ---- */
+  .cn-status {
+    @apply inline-flex items-center gap-2 text-micro font-semibold;
+  }
+
+  .cn-status::before {
+    content: '';
+    @apply h-2 w-2 rounded-full bg-current;
+  }
+
+  /* ---- Quiet chip for metadata (dosage, timings, tags) ---- */
+  .cn-chip {
+    @apply inline-flex items-center gap-1.5 rounded-[9px] border border-line bg-paper px-2.5 py-1 text-micro font-semibold text-ink-soft tabular;
+  }
+
+  /* ---- Tactile primary action sized for elderly users ---- */
+  .cn-tactile {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-control font-semibold text-white transition-all duration-150 ease-out cursor-pointer select-none;
+    background: var(--cn-teal);
+    box-shadow: 0 3px 0 #12595b;
+  }
+
+  .cn-tactile:hover { background: #1d8482; transform: translateY(-1px); box-shadow: 0 4px 0 #12595b; }
+  .cn-tactile:active { transform: translateY(2px); box-shadow: 0 1px 0 #12595b; }
+  .cn-tactile:disabled { opacity: 0.5; pointer-events: none; }
+
+  .cn-tactile-coral {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-control font-semibold text-white transition-all duration-150 ease-out cursor-pointer select-none;
+    background: #c0392b;
+    box-shadow: 0 3px 0 #9c2c20;
+  }
+
+  .cn-tactile-coral:hover { background: #cb4436; }
+  .cn-tactile-coral:active { transform: translateY(2px); box-shadow: 0 1px 0 #9c2c20; }
+
+  /* ---- Safety notice: calm, never alarm-red ---- */
+  .cn-notice {
+    @apply flex items-start gap-3 rounded-panel border border-brass/25 bg-brass-wash p-4 text-ink;
+  }
+
+  /* ---- Empty state ---- */
+  .cn-empty {
+    @apply flex flex-col items-center gap-2 rounded-panel border border-dashed border-line bg-paper-cool px-6 py-14 text-center;
+  }
+
+  /* ---- Skeleton loader ---- */
+  .cn-skeleton {
+    @apply animate-pulse rounded-control bg-paper-sunken;
+  }
+}
+
+/* Elderly text-size modes: applied on the app shell root, so rem-based
+   utilities inside pages scale with them. */
+.text-scale-normal { font-size: 1rem; line-height: 1.55; }
+.text-scale-large { font-size: 1.125rem; line-height: 1.6; }
+.text-scale-xlarge { font-size: 1.28rem; line-height: 1.7; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* CareNest: warm paper, forest ink and a little human warmth. */
+:root { --cn-ink:#243e34; --cn-teal:#315e49; --cn-canvas:#f7f6f0; --cn-rule:#dedfd3; }
+.cn-title { letter-spacing:-.035em; }
+.cn-input { min-height:52px; background:#fdfcf8; border-color:#d9dcd1; }
+.cn-input:hover { border-color:#a6b2a1; }
+.cn-input:disabled { opacity:.6; }
+.cn-panel { box-shadow:0 3px 12px -7px #243e3418; }
+.cn-tactile { box-shadow:0 2px 0 #244a38; }
+.cn-tactile:hover { background:#244a38; box-shadow:0 3px 0 #17382d; }
+.auth-layout { display:grid; grid-template-columns:1.08fr 1fr; min-height:100dvh; }
+.auth-story { position:relative; display:flex; flex-direction:column; justify-content:space-between; padding:38px clamp(32px,4.2vw,76px) 30px; background:#203e32; color:#f5f1e6; overflow:hidden; }
+.auth-story::before { content:''; position:absolute; inset:0; opacity:.14; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ffffff' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+.auth-story-top,.auth-story-body,.auth-story-bottom { position:relative; }
+.auth-story-top { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.auth-story .cn-brand > span:first-child { background:#f4f0e5; color:#203e32; border-radius:50%; width:43px; height:43px; }
+.auth-story .cn-brand > span:last-child > span:first-child { color:#f5f1e6; font-size:29px; }
+.auth-story .cn-brand > span:last-child > span:last-child { color:#b8c3ad; font-size:8px; letter-spacing:.17em; }
+.auth-edition { display:flex; align-items:center; gap:9px; font-size:11px; color:#c3cdb9; }
+.auth-story-body { margin-top:56px; }
+.auth-kicker { display:flex; align-items:center; gap:10px; font-size:10px; font-weight:500; letter-spacing:.19em; color:#ced4bd; }
+.auth-kicker > span { width:6px; height:6px; border-radius:50%; background:#d9ab85; }
+.auth-story-heading { font-family:Newsreader,Georgia,serif; font-weight:400; font-size:clamp(60px,6.1vw,104px); line-height:.98; letter-spacing:-.055em; margin:24px 0 22px; }
+.auth-story-heading em { color:#c5cba7; font-weight:400; }
+.auth-story-lede { font-size:15px; line-height:1.8; color:#c9d0bf; max-width:470px; }
+.care-art { position:relative; width:calc(100% + 30px); margin:0 -15px; color:#e5ead5; }
+.care-art-drawing { display:block; width:100%; height:auto; max-height:340px; }
+.care-plant { transform-origin:310px 303px; animation:plant-breathe 9s ease-in-out infinite; }
+.care-orbit { animation:orbit-trace 18s linear infinite; }
+.care-note { position:absolute; display:flex; align-items:center; gap:10px; background:#f7f4e9; color:#243e34; padding:13px 16px; border:1px solid #e4e6d7; border-radius:12px; box-shadow:0 15px 32px #0b241f25; }
+.care-note-icon { display:grid; place-items:center; width:33px; height:33px; border-radius:50%; background:#e8eddf; flex-shrink:0; }
+.care-note small { display:block; font-size:10px; color:#65736a; margin-bottom:3px; }
+.care-note strong { display:block; font-size:11px; font-weight:550; }
+.care-note-reminder { top:23%; left:0; transform:rotate(-5deg); animation:note-arrive 1.2s cubic-bezier(.16,1,.3,1) both; }
+.care-note-family { bottom:21%; right:-3px; transform:rotate(4deg); animation:note-arrive 1.2s .15s cubic-bezier(.16,1,.3,1) both; }
+.care-note-family > svg { margin-left:8px; color:#59724b; }
+.care-art-caption { display:block; text-align:center; font-size:8px; letter-spacing:.2em; color:#afbea7; margin-top:-7px; }
+.auth-story-bottom { margin-top:30px; padding-top:22px; border-top:1px solid #ffffff26; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.auth-story-bottom > div { display:flex; align-items:flex-start; gap:15px; }
+.auth-story-bottom > div > span { color:#aabc9b; font-size:10px; line-height:1.8; }
+.auth-story-bottom p { color:#bcc8b4; font-size:12px; line-height:1.65; }
+.auth-story-bottom strong { font-weight:450; color:#f5f1e6; }
+.auth-form-side { display:flex; flex-direction:column; min-width:0; padding:36px clamp(28px,4.2vw,72px) 24px; background:#f9f8f3; }
+.auth-form-top { display:flex; justify-content:flex-end; align-items:center; gap:16px; font-size:10px; }
+.auth-form-top > span { color:#65736a; letter-spacing:.09em; }
+.auth-form-top a { display:flex; align-items:center; gap:8px; color:#315e49; font-size:12px; padding:8px 0; border-bottom:1px solid #b4bea8; }
+.auth-form-content { width:100%; max-width:410px; margin:auto; padding:65px 0 55px; }
+.auth-heading { font-family:Newsreader,Georgia,serif; font-size:clamp(42px,4.1vw,64px); font-weight:400; line-height:1.1; letter-spacing:-.045em; margin:17px 0 12px; color:#243e34; }
+.auth-heading > span { color:#b47d5f; }
+.auth-intro { color:#65736a; font-size:14px; line-height:1.7; }
+.auth-login-form { display:flex; flex-direction:column; gap:21px; margin-top:34px; }
+.auth-login-form .cn-field-label { font-size:13px; font-weight:500; margin-bottom:9px; }
+.auth-login-form .cn-input { font-size:14px; }
+.auth-password { position:relative; }
+.auth-password > button { position:absolute; right:4px; top:4px; height:44px; width:44px; display:grid; place-items:center; color:#65736a; border-radius:7px; }
+.auth-password > button:hover { background:#ebefe2; color:#243e34; }
+.auth-submit { width:100%; min-height:54px; justify-content:space-between; margin-top:2px; font-size:14px; font-weight:500; box-shadow:none; }
+.auth-submit > svg { transition:transform .25s; }
+.auth-submit:hover > svg { transform:translateX(3px); }
+.auth-demo { margin-top:37px; }
+.auth-divider { display:flex; align-items:center; gap:15px; }
+.auth-divider > span { height:1px; flex:1; background:#dedfd3; }
+.auth-divider p { color:#65736a; font-size:9px; letter-spacing:.13em; white-space:nowrap; }
+.auth-demo-intro { font-size:12px; color:#65736a; text-align:center; margin:17px 0; }
+.auth-personas { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.auth-personas button { display:flex; align-items:center; gap:10px; padding:16px 12px; text-align:left; border:1px solid #d9dcd1; border-radius:10px; transition:background .2s,border-color .2s,transform .2s; }
+.auth-personas button:hover { background:#edf0e5; border-color:#9baa90; transform:translateY(-2px); }
+.auth-personas button:disabled { opacity:.5; pointer-events:none; }
+.auth-personas button > svg:first-child { color:#647954; flex-shrink:0; }
+.auth-personas button > svg:last-child { width:13px; margin-left:auto; flex-shrink:0; }
+.auth-personas strong { display:block; font-weight:550; font-size:12px; white-space:nowrap; }
+.auth-personas small { display:block; color:#65736a; font-size:10px; margin-top:4px; }
+.auth-demo-disclosure { color:#65736a; font-size:10px; text-align:center; margin-top:15px; line-height:1.6; }
+.auth-footer { text-align:center; border-top:1px solid #dedfd3; padding-top:20px; }
+.auth-footer > span { color:#486055; font-size:9px; letter-spacing:.17em; }
+.auth-footer p { color:#65736a; font-size:10px; line-height:1.7; margin-top:7px; }
+.auth-mobile-brand { display:none; }
+.auth-register .auth-story { max-height:100dvh; position:sticky; top:0; }
+.auth-register .auth-heading { font-size:43px; }
+.auth-register .auth-form-side { padding-top:48px; padding-bottom:48px; }
+@keyframes plant-breathe { 0%,100% { transform:rotate(-1deg); } 50% { transform:rotate(1.5deg); } }
+@keyframes orbit-trace { to { stroke-dashoffset:-100; } }
+@keyframes note-arrive { from { translate:0 15px; } to { translate:0 0; } }
+@media (min-width:1600px) { .auth-story-body { max-width:650px; margin:auto; padding-top:65px; } .care-art-drawing { max-height:390px; } }
+@media (max-width:1200px) { .auth-edition { display:none; } .auth-story { padding-left:36px; padding-right:36px; } .care-note { padding:11px; gap:7px; } .care-note strong { font-size:10px; } .care-note-reminder { left:-8px; } .auth-personas { grid-template-columns:1fr; } .auth-personas button { padding:13px 16px; } .auth-form-content { padding:45px 0; } }
+@media (max-width:1023px) { .auth-layout { grid-template-columns:1fr; } .auth-story { display:none; } .auth-form-side { min-height:100dvh; padding:25px 32px; } .auth-mobile-brand { display:flex; align-items:center; justify-content:space-between; padding-bottom:24px; border-bottom:1px solid #dedfd3; gap:16px; } .auth-mobile-label { font-size:8px; color:#65736a; letter-spacing:.1em; } .auth-form-top { padding-top:20px; } .auth-form-content { max-width:450px; padding:45px 0; } .auth-heading { font-size:58px; } .auth-personas { grid-template-columns:1fr 1fr; } .auth-register .auth-form-side { padding-top:25px; } }
+@media (max-width:480px) { .auth-form-side { padding:22px; } .auth-mobile-brand .cn-brand > span:last-child > span:last-child { font-size:8px; } .auth-mobile-label { display:none; } .auth-form-top { justify-content:space-between; } .auth-form-content { padding:43px 0 36px; } .auth-heading { font-size:49px; } .auth-intro { max-width:260px; } .auth-personas { grid-template-columns:1fr; } .auth-personas button { min-height:65px; } .auth-demo { margin-top:31px; } .auth-footer p { max-width:260px; margin-left:auto; margin-right:auto; } .auth-register .auth-heading { font-size:37px; } }
+@media (prefers-reduced-motion:reduce) { .care-plant,.care-orbit,.care-note { animation:none; } .auth-personas button:hover,.auth-submit:hover > svg,.cn-tactile:hover { transform:none; } }
+.auth-motion-control { display:flex; align-items:center; gap:6px; font-size:9px; color:#c3cdb9; margin:12px auto 0; padding:7px 10px; border-radius:6px; }
+.auth-motion-control:hover { background:#ffffff12; }
+.auth-story[data-motion-paused='true'] .care-plant,.auth-story[data-motion-paused='true'] .care-orbit { animation-play-state:paused; }
+.cn-segment { max-width:100%; flex-wrap:wrap; }
+@media (min-width:1024px) { .auth-register .auth-story-body { margin-top:30px; } .auth-register .care-art-drawing { max-height:260px; } }

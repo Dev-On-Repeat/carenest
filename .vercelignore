@@ -1,0 +1,19 @@
+# Deployment uploads only application source; local records and build output stay private.
+.git/
+.vercel/
+**/node_modules/
+**/venv/
+**/__pycache__/
+**/.pytest_cache/
+**/dist/
+.env*
+**/.env*
+*.log
+**/*.log
+*.db
+**/*.db
+*.sqlite3
+**/*.sqlite3
+backend/uploads/*
+!backend/uploads/.gitkeep
+test_*.png
